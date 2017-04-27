@@ -77,7 +77,7 @@ private
     end
 
     def self.get_all_migration_names
-      Dir[Rails.root.join("db", "cassandra_migrate/[0-9]*_*.rb")]
+      Dir[Rails.root.join(ENV["CASSANDRA_DB"] || "db", "cassandra_migrate/[0-9]*_*.rb")]
     end
 
     def self.get_class_from_migration_name(filename)

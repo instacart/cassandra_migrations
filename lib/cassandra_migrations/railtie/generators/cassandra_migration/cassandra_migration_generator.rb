@@ -13,6 +13,6 @@ class CassandraMigrationGenerator < Rails::Generators::Base
     file_name = "#{Time.current.utc.strftime('%Y%m%d%H%M%S')}_#{migration_name.underscore}"
     @migration_class_name = migration_name.camelize
     
-    template "empty_migration.rb.erb", "db/cassandra_migrate/#{file_name}.rb"  
+    template "empty_migration.rb.erb", "#{ENV["CASSANDRA_DB"] || "db"}/cassandra_migrate/#{file_name}.rb"  
   end
 end
