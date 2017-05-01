@@ -30,6 +30,7 @@ namespace :cassandra do
   desc 'Migrate the keyspace to the latest version'
   task :migrate => :start do
     migrations_up_count = CassandraMigrations::Migrator.up_to_latest!
+    CassandraMigrations::Migrator.export if Rails.env.development?
 
     if migrations_up_count == 0
       puts "Already up-to-date"

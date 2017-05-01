@@ -19,6 +19,11 @@ module CassandraMigrations
       new_migrations.size
     end
 
+    def self.export
+      path = Rails.root.join(ENV["CASSANDRA_DB"] || "config", "db/cassandra_schema.sql")
+      `cqlsh -e "DESCRIBE KEYSPACE #{Config.keyspace}" > #{path}`
+    end
+
     def self.rollback!(count=1)
       current_version = read_current_version
 
@@ -77,7 +82,7 @@ private
     end
 
     def self.get_all_migration_names
-      Dir[Rails.root.join(ENV["CASSANDRA_DB"] || "db", "cassandra_migrate/[0-9]*_*.rb")]
+      Dir[Rails.root.join(ENV["CASSANDRA_DB"].to_s, "db/cassandra_migrate/[0-9]*_*.rb")]
     end
 
     def self.get_class_from_migration_name(filename)
